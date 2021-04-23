@@ -19,15 +19,18 @@ export class AuthentificationService {
 
   constructor(private http: HttpClient) { }
 
-  autentificationUrl = environment.apiUrl + 'login-page/login';
+  authentificationUrl = environment.apiUrl + 'login-page/login';
   /**
    * authentificate users
    */
   authentificate(credentials: any): Observable<User> {
-    console.log(credentials);
-    return this.http.post<any>(this.autentificationUrl, credentials, httpOptions)
+    return this.http.post<any>(this.authentificationUrl, credentials, httpOptions)
       .pipe(
         // adding catch error handlers
       );
   }
 }
+/**
+ * A quoi sert environnement. Indiquer les variables qui dependent, du mode de démarrage (production ou developpement). when app run in development mode environnement.ts will be replace by environment.prod.ts  
+ * Building and serving Angular apps
+ */

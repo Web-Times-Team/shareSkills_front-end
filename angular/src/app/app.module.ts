@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginModule} from '@web-times-team/angular-web-times-tools';
+import { SharingModule } from './sharing/sharing.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { LoginModule} from '@web-times-team/angular-web-times-tools';
     BrowserModule,
     AppRoutingModule,
     LoginModule,
-    HttpClientModule
+    SharingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
