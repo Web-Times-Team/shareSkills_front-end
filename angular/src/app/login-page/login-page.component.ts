@@ -12,6 +12,8 @@ import { AuthentificationService } from '../authentification.service';
 export class LoginPageComponent implements OnInit {
   mediasButInfTypes: MediaButInfType[] = [MediaButInfType.facebook, MediaButInfType.google, MediaButInfType.linkedIn];
   usernameField = UsernameField[1];
+  forgotPasswordRoute='';
+  signupRoute ='registration'
   constructor(private authentification: AuthentificationService, private router :Router) { }
 
   ngOnInit(): void {
