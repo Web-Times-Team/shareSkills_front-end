@@ -14,15 +14,22 @@ export class LoginPageComponent implements OnInit {
   usernameField = UsernameField[1];
   forgotPasswordRoute='';
   signupRoute ='registration'
+  message: string;
   constructor(private authentification: AuthentificationService, private router :Router) { }
 
   ngOnInit(): void {
   }
+
+  setMessage(){
+    this.message = 'Logged ' + (this.authentification.isLoggedIn? 'in': 'out');
+  }
   /**
    * authentifie users
    */
-  authentificate(credentials: any): void {
-    this.authentification.authentificate(credentials).subscribe(user => {
+  login(credentials: any): void {
+    this.authentification.login(credentials).subscribe(
+      user => {
+
       this.router.navigate(['collaborations']);
     },
       error => {
@@ -31,5 +38,10 @@ export class LoginPageComponent implements OnInit {
       }
 
     )
+  }
+
+  logout(){
+    this.authentification.logout();
+    this.setMessage();
   }
 }

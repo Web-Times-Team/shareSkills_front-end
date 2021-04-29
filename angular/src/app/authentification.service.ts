@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, tap } from 'rxjs/operators';
 import { User } from './class/types';
 import { environment } from 'src/environments/environment';
 
@@ -17,20 +17,26 @@ const httpOptions = {
 
 export class AuthentificationService {
 
+  isLoggedIn = false;
+  // store the URL so we can redirect after logging in
+  redirectUrl: string;
   constructor(private http: HttpClient) { }
 
   authentificationUrl = environment.apiUrl + 'login-page/login';
   /**
-   * authentificate users
+   * login user
    */
-  authentificate(credentials: any): Observable<User> {
+  login(credentials: any): Observable<User> {
     return this.http.post<any>(this.authentificationUrl, credentials, httpOptions)
       .pipe(
+        tap(val => this.isLoggedIn = true)
         // adding catch error handlers
       );
   }
+
+  logout(): void {
+    this.isLoggedIn = false;
+  }
+
 }
-/**
- * A quoi sert environnement. Indiquer les variables qui dependent, du mode de démarrage (production ou developpement). when app run in development mode environnement.ts will be replace by environment.prod.ts  
- * Building and serving Angular apps
- */
+
