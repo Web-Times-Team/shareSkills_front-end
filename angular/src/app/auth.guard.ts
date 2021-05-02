@@ -25,6 +25,7 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   checkLogin(url: string): boolean {
+    console.log(document.cookie);
     if (this.authentification.isLoggedIn) {
       return true;
     }
@@ -36,16 +37,19 @@ export class AuthGuard implements CanActivate, CanLoad {
     return false;
   }
 
-  activeLoginPage(url: string): boolean {
+  async activeLoginPage(url: string): Promise<boolean> {
 
-    if (!this.authentification.isLoggedIn) {
-      return true;
+    try {
+      const isAuth = await this.authentification.isAuth().toPromise();
+      if (!isAuth.authenticated) {
+        return true;
+      }
+      // Navigate to the login page
+      this.router.navigate(['collaborations']);
+      return false;
+    } catch (err) {
+      return false;
     }
-
-    console.log(url);
-    // Navigate to the login page
-    this.router.navigate([url]);
-    return false;
   }
 }
 

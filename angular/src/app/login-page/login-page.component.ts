@@ -12,16 +12,16 @@ import { AuthentificationService } from '../authentification.service';
 export class LoginPageComponent implements OnInit {
   mediasButInfTypes: MediaButInfType[] = [MediaButInfType.facebook, MediaButInfType.google, MediaButInfType.linkedIn];
   usernameField = UsernameField[1];
-  forgotPasswordRoute='';
-  signupRoute ='registration'
+  forgotPasswordRoute = '';
+  signupRoute = 'registration'
   message: string;
-  constructor(private authentification: AuthentificationService, private router :Router) { }
+  constructor(private authentification: AuthentificationService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  setMessage(){
-    this.message = 'Logged ' + (this.authentification.isLoggedIn? 'in': 'out');
+  setMessage() {
+    this.message = 'Logged ' + (this.authentification.isLoggedIn ? 'in' : 'out');
   }
   /**
    * authentifie users
@@ -29,18 +29,19 @@ export class LoginPageComponent implements OnInit {
   login(credentials: any): void {
     this.authentification.login(credentials).subscribe(
       user => {
-
-      this.router.navigate(['collaborations']);
-    },
+        console.log(user.headers);
+        console.log(user.body);
+        this.router.navigate(['collaborations']);
+      },
       error => {
         console.log(error);
-      // handler error
+        // handler error
       }
 
     )
   }
 
-  logout(){
+  logout() {
     this.authentification.logout();
     this.setMessage();
   }
