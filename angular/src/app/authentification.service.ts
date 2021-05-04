@@ -9,11 +9,8 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
   }),
-  observe: 'response',
-  withCredentials:true
+  withCredentials: true
 };
-
-
 
 
 @Injectable({
@@ -29,6 +26,7 @@ export class AuthentificationService {
 
   authentificationUrl = environment.apiUrl + 'login-page/login';
   isAuthUrl = environment.apiUrl + 'login-page/is-auth';
+  logoutUrl = environment.apiUrl + 'login-page/logout';
   /**
    * login user
    */
@@ -49,19 +47,25 @@ export class AuthentificationService {
       )
 
   }
-
-  logout(): void {
-    this.isLoggedIn = false;
-  }
-  
-  isAuth(): Observable<any> {
-    return this.http.get<any>(this.isAuthUrl, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+  /**
+   * logout
+   */
+  logout(): Observable<any> {
+    return this.http.get<any>(this.logoutUrl, httpOptions).pipe(
+      map(res => {
+        this.isLoggedIn = res.authenticated;
+        return this.isLoggedIn;
       })
-    }).pipe(
-      tap(val => {
-        this.isLoggedIn = true;
+    );
+  }
+  /**
+   * check authentification
+   */
+  isAuth(): Observable<any> {
+    return this.http.get<any>(this.isAuthUrl, httpOptions).pipe(
+      map(res => {
+        this.isLoggedIn = res.authenticated;
+        return this.isLoggedIn;
       })
     );
   }

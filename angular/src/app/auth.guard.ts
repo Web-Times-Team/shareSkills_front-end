@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     try {
       const isAuth = await this.authentification.isAuth().toPromise();
-      if (!isAuth.authenticated) {
+      if (!isAuth) {
         return true;
       }
       // Navigate to the login page
