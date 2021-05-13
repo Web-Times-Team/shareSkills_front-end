@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
   {
-    path: 'loginpage',
+    path: 'login',
     component: LoginPageComponent,
     canActivate: [AuthGuard]
   },
@@ -16,13 +17,17 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: 'registration',
+    loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule)
+  },
+  {
     path: '',
     redirectTo: '/loginpage',
     pathMatch: 'full'
   },
   {
-    path: 'registration',
-    loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule)
+    path: '**', 
+    component: PageNotFoundComponent
   }
 ];
 

@@ -29,13 +29,7 @@ export class LoginPageComponent implements OnInit {
   login(credentials: any): void {
     this.authentification.login(credentials).subscribe(
       user => {
-        console.log(user.headers);
-        console.log(user.body);
         this.router.navigate(['collaborations']);
-      },
-      error => {
-        console.log(error);
-        // handler error
       }
 
     )

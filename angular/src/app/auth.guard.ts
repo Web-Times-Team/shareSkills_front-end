@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 
   constructor(private authentification: AuthentificationService, private router: Router) {
-
   }
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -20,35 +19,32 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   canLoad(route: Route): boolean {
     const url = `/${route.path}`;
-
     return this.checkLogin(url);
   }
 
-  checkLogin(url: string): boolean {
-    console.log(document.cookie);
+  checkLogin(url: string): boolean  {
     if (this.authentification.isLoggedIn) {
       return true;
     }
     // Store the attempted URL for redirecting
     this.authentification.redirectUrl = url;
-    console.log(url);
     // Navigate to the login page
-    this.router.navigate(['loginpage']);
+    this.router.navigate(['login']);
     return false;
   }
 
-  async activeLoginPage(url: string): Promise<boolean> {
+  async activeLoginPage(url: string): Promise<boolean | UrlTree> {
 
     try {
       const isAuth = await this.authentification.isAuth().toPromise();
       if (!isAuth) {
         return true;
       }
-      // Navigate to the login page
-      this.router.navigate(['collaborations']);
-      return false;
+
+      this.authentification.redirectUrl = url;
+      return this.router.parseUrl('/collaborations');
     } catch (err) {
-      return false;
+      return true;
     }
   }
 }
